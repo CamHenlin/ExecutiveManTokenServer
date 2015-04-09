@@ -73,7 +73,7 @@ app.get('/verifyToken/:token', function(req, res) {
 				log('status: ' + response.statusCode);
 				log('token ' + req.params.token + ' is invalid.');
 				log(documentText);
-				res.status(402).end();
+				res.status(402).send(documentText).end();
 			}
 
 			documentText; // has complete text of request doc
