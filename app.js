@@ -42,7 +42,7 @@ function log(text) {
 /**
  * [static route, used to display game content]
  */
-app.use('/', express.static(__dirname + '/bm/'));
+app.use('/', express.static(__dirname + '/webapp/'));
 
 /**
  * [verifyToken route. handles verifying tokens and invalidating them after verification]

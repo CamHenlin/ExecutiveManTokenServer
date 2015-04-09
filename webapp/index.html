@@ -1,0 +1,24 @@
+<html>
+	<head>
+	</head>
+	<body>
+	<div id="output">verifying token data...</div>
+	<script>
+		(function() {
+			var request = new XMLHttpRequest();
+			request.open("GET", "/verifyToken/" + new RegExp(/[?&]token=([^&]*)/).exec(location.search)[1]);
+			request.onload = function (e) {
+				if (this.status === 200) {
+					console.log(request.response)
+					document.getElementById('outout').innerHTML = "ok to start game: " + request.response;
+				} else {
+					// there was some kind of error
+					console.log(request.response)
+					document.getElementById('outout').innerHTML = "error, to start game: " + request.response;
+				}
+			};
+			request.send();
+		})();
+	</script>
+	</body>
+</html>
