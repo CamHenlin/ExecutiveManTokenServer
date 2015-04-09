@@ -68,7 +68,7 @@ app.get('/verifyToken/:token', function(req, res) {
 				log('token ' + req.params.token + ' is valid.');
 				log(documentText);
 				invalidateToken(req.params.token);
-				res.status(200).end();
+				res.status(200).send(documentText).end();
 			} else {
 				log('status: ' + response.statusCode);
 				log('token ' + req.params.token + ' is invalid.');
