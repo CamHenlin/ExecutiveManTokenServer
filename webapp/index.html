@@ -6,15 +6,20 @@
 	<script>
 		(function() {
 			var request = new XMLHttpRequest();
-			request.open("GET", "/verifyToken/" + new RegExp(/[?&]token=([^&]*)/).exec(location.search)[1]);
+			try {
+				request.open("GET", "/verifyToken/" + new RegExp(/[?&]token=([^&]*)/).exec(location.search)[1]);
+			} catch (error) {
+				document.getElementById('output').innerHTML = "no token specified.";
+			}
+
 			request.onload = function (e) {
 				if (this.status === 200) {
 					console.log(request.response)
-					document.getElementById('outout').innerHTML = "ok to start game: " + request.response;
+					document.getElementById('output').innerHTML = "ok to start game: " + request.response;
 				} else {
 					// there was some kind of error
 					console.log(request.response)
-					document.getElementById('outout').innerHTML = "error, to start game: " + request.response;
+					document.getElementById('output').innerHTML = "error, unable to start game: " + request.response;
 				}
 			};
 			request.send();
