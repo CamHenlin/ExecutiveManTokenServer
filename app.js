@@ -26,8 +26,13 @@ app.use(
 	})
 );
 
+// nedb collection to store data in
 var collection = new Datastore({ filename: 'nedb', autoload: true });
 
+/**
+ * [log inserts log text into an nedb for later analysis]
+ * @param  {[type]} text [text to log]
+ */
 function log(text) {
 	collection.insert(text, function() {
 		console.log(text);
@@ -49,7 +54,7 @@ app.get('/verifyToken/:token', function(req, res) {
 	var options = {
 		host: "128.223.6.212",
 		port: "8247",
-		path: "fitbitcontroller/validateGameToken?token=" + req.params.token
+		path: "/fitbitcontroller/validateGameToken?token=" + req.params.token
 	};
 
 	var callback = function(response) {
@@ -63,25 +68,24 @@ app.get('/verifyToken/:token', function(req, res) {
 				log('token ' + req.params.token + ' is valid.');
 				log(documentText);
 				invalidateToken(req.params.token);
-				res.end(200);
+				res.status(200).end();
 			} else {
+				log('status: ' + response.statusCode);
 				log('token ' + req.params.token + ' is invalid.');
 				log(documentText);
-				res.end(402);
+				res.status(402).end();
 			}
 
 			documentText; // has complete text of request doc
 		});
 	};
 
-	var request = http.request(options, callback);
+	var request = http.get(options, callback);
 
 	request.on('error', function (error) {
 		log('unexpected error occurred while attempting to validate ' + req.params.token);
-		res.end(402);
+		res.status(402).end();
 	});
-
-	request.end();
 });
 
 /**
@@ -93,7 +97,7 @@ function invalidateToken(token) {
 	var options = {
 		host: "128.223.6.212",
 		port: "8247",
-		path: "fitbitcontroller/invalidateGameToken?token=" + req.params.token
+		path: "/fitbitcontroller/invalidateGameToken?token=" + req.params.token
 	};
 
 	var callback = function(response) {
@@ -106,6 +110,7 @@ function invalidateToken(token) {
 			if (response.statusCode === 200) {
 				log('invalidated ' + token);
 			} else {
+				log('status: ' + response.statusCode);
 				log('unable to invalidate ' + token);
 				log(documentText);
 			}
@@ -114,11 +119,12 @@ function invalidateToken(token) {
 		});
 	};
 
-	var request = http.request(options, callback);
+	var request = http.get(options, callback);
 
 	request.on('error', function (error) {
 		log('unexpected error occurred while attempting to validate ' + token);
 	});
-
-	request.end();
 }
+
+
+var server = app.listen(process.env.PORT || 3000);

@@ -15,5 +15,15 @@
   "bugs": {
     "url": "https://github.com/CamHenlin/ExecutiveManTokenServer/issues"
   },
-  "homepage": "https://github.com/CamHenlin/ExecutiveManTokenServer"
+  "homepage": "https://github.com/CamHenlin/ExecutiveManTokenServer",
+  "dependencies": {
+    "body-parser": "^1.12.2",
+    "connect-nedb-session": "0.0.3",
+    "express": "^4.12.3",
+    "express-session": "^1.11.1",
+    "follow-redirects": "0.0.3",
+    "gen-uid": "0.0.2",
+    "http": "0.0.0",
+    "nedb": "^1.1.2"
+  }
 }
